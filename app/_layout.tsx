@@ -12,7 +12,9 @@ import "react-native-reanimated";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    KanitRegular: require("../assets/fonts/Kanit-Regular.ttf"),
+    KanitBolt: require("../assets/fonts/Kanit-Bold.ttf"),
+    KanitThin: require("../assets/fonts/Kanit-Thin.ttf"),
   });
 
   if (!loaded) {
@@ -22,7 +24,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         ¨
         {/*<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />*/}
