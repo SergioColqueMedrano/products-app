@@ -1,4 +1,5 @@
 import ThemedButton from "@/presentation/theme/components/ThemedButton";
+import ThemedLink from "@/presentation/theme/components/ThemedLink";
 import { ThemedText } from "@/presentation/theme/components/ThemedText";
 import { ThemedTextInput } from "@/presentation/theme/components/ThemedTextInput";
 import React from "react";
@@ -52,6 +53,14 @@ const LoginScreen = () => {
         {/* Botón de Ingresar */}
         <ThemedButton icon="arrow-forward-outline">Ingresar</ThemedButton>
         {/* Botón de Registro */}
+
+        {/* Spacer */}
+        <View
+          style={{
+            marginTop: 50,
+          }}
+        />
+
         <View
           style={{
             flexDirection: "row",
@@ -60,9 +69,9 @@ const LoginScreen = () => {
           }}
         >
           <ThemedText style={{ color: "grey" }}>¿No tienes cuenta?</ThemedText>
-          <ThemeLink href="/auth/register" style={{ marginHorizontal: 5 }}>
+          <ThemedLink href="/auth/register" style={{ marginHorizontal: 5 }}>
             Crear Cuenta
-          </ThemeLink>
+          </ThemedLink>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
