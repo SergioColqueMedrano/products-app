@@ -1,10 +1,13 @@
+import { useAuthStore } from "@/presentation/auth/store/useAuthStore";
 import ThemedButton from "@/presentation/theme/components/ThemedButton";
 import ThemedLink from "@/presentation/theme/components/ThemedLink";
 import { ThemedText } from "@/presentation/theme/components/ThemedText";
 import { ThemedTextInput } from "@/presentation/theme/components/ThemedTextInput";
 import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
-import React from "react";
+import { router } from "expo-router";
+import React, { useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   ScrollView,
   useWindowDimensions,
@@ -12,8 +15,35 @@ import {
 } from "react-native";
 
 const LoginScreen = () => {
+  const { login } = useAuthStore();
+
   const { height } = useWindowDimensions();
   const backgroundColor = useThemeColor({}, "background");
+
+  const [isPosting, setIsPosting] = useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onLogin = async () => {
+    const { email, password } = form;
+
+    console.log({ email, password });
+    if (email.length === 0 || password.length === 0) {
+      return;
+    }
+    setIsPosting(true);
+    const wasSuccessful = await login(email, password);
+    setIsPosting(false);
+
+    if (wasSuccessful) {
+      router.replace("/");
+      return;
+    }
+
+    Alert.alert("Error", "Usuario o contraseña incorrectos");
+  };
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -37,7 +67,8 @@ const LoginScreen = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             icon="mail-outline"
-            //icon
+            value={form.email}
+            onChangeText={(value) => setForm({ ...form, email: value })}
           />
 
           <ThemedTextInput
@@ -46,11 +77,12 @@ const LoginScreen = () => {
             autoCapitalize="none"
             style={{ marginTop: 10 }}
             icon="lock-closed-outline"
-            //icon
+            value={form.password}
+            onChangeText={(value) => setForm({ ...form, password: value })}
           />
         </View>
 
-        {/* Spacer */}
+        {/* Scer */}
         <View
           style={{
             marginTop: 10,
@@ -58,7 +90,13 @@ const LoginScreen = () => {
         />
 
         {/* Botón de Ingresar */}
-        <ThemedButton icon="arrow-forward-outline">Ingresar</ThemedButton>
+        <ThemedButton
+          icon="arrow-forward-outline"
+          onPress={onLogin}
+          disabled={isPosting}
+        >
+          Ingresar
+        </ThemedButton>
         {/* Botón de Registro */}
 
         {/* Spacer */}
