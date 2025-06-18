@@ -1,4 +1,5 @@
 import { useColorScheme } from "@/presentation/theme/hooks/useColorScheme.web";
+import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
 import {
   DarkTheme,
   DefaultTheme,
@@ -11,6 +12,8 @@ import "react-native-reanimated";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const backgroundColor = useThemeColor({}, "background");
+
   const [loaded] = useFonts({
     KanitRegular: require("../assets/fonts/Kanit-Regular.ttf"),
     KanitBolt: require("../assets/fonts/Kanit-Bold.ttf"),
@@ -23,7 +26,9 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView
+      style={{ backgroundColor: backgroundColor, flex: 1 }}
+    >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack
           screenOptions={{
