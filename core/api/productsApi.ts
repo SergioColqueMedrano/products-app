@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 // TODO conectar mediante envs vars, Android e IOS
 
-const STAGE = process.env.EXP_PUBLIC_STAGE || "dev";
+const STAGE = process.env.EXPO_PUBLIC_STAGE || "dev";
 
 export const API_URL =
   STAGE === "prod"
