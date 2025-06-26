@@ -20,7 +20,7 @@ const ProductScreen = () => {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
 
-  const { productQuery } = useProduct(`${id}`);
+  const { productQuery, productMutation } = useProduct(`${id}`);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <Ionicons name="camera-outline" size={25} />,
@@ -48,13 +48,8 @@ const ProductScreen = () => {
   const product = productQuery.data;
 
   return (
-    <Formik
-      initialValues={product}
-      onSubmit={(productlike) => {
-        console.log({ productlike });
-      }}
-    >
-      {({ values, handleChange, setFieldValue }) => (
+    <Formik initialValues={product} onSubmit={productMutation.mutate}>
+      {({ values, handleSubmit, handleChange, setFieldValue }) => (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
@@ -141,7 +136,7 @@ const ProductScreen = () => {
             >
               <ThemedButton
                 icon="save-outline"
-                onPress={() => console.log("Guardar")}
+                onPress={() => handleSubmit()}
               />
             </View>
           </ScrollView>
