@@ -99,6 +99,8 @@ export default function CameraScreen() {
     //TODO: implementar lógica para guardar la imagen
     if (!selectedImage) return;
     await MediaLibrary.saveToLibraryAsync(selectedImage);
+
+    router.dismiss();
   };
 
   const onRetakePhoto = () => {
