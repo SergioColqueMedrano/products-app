@@ -18,6 +18,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
   ScrollView,
   View,
 } from "react-native";
@@ -81,7 +82,16 @@ const ProductScreen = () => {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={productQuery.isRefetching}
+                onRefresh={async () => {
+                  await productQuery.refetch();
+                }}
+              />
+            }
+          >
             <ProductImages images={[...product.images, ...selectedImages]} />
             <ThemedView style={{ marginHorizontal: 10, marginTop: 10 }}>
               <ThemedTextInput
