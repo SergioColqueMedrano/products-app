@@ -4,8 +4,10 @@ import { Product } from "@/core/products/interfaces/product.interface";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import { Alert } from "react-native";
+import { useCameraStore } from "../../store/useCameraStore";
 
 export const useProduct = (productId: string) => {
+  const { clearImages } = useCameraStore();
   const queryClient = useQueryClient();
   const productIdRef = useRef(productId); // new / UUID
 
@@ -25,6 +27,8 @@ export const useProduct = (productId: string) => {
 
     onSuccess: (data: Product) => {
       productIdRef.current = data.id; // Actualizar el ID del producto
+
+      clearImages(); // Limpiar las imágenes de la tienda
 
       queryClient.invalidateQueries({
         queryKey: ["product", "infinite"],
