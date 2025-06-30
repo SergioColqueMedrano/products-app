@@ -8,16 +8,18 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
+  Dimensions,
+  Image,
   KeyboardAvoidingView,
   ScrollView,
-  useWindowDimensions,
+  StyleSheet,
   View,
 } from "react-native";
 
+const screenHeight = Dimensions.get("window").height;
+
 const LoginScreen = () => {
   const { login } = useAuthStore();
-
-  const { height } = useWindowDimensions();
   const backgroundColor = useThemeColor({}, "background");
 
   const [isPosting, setIsPosting] = useState(false);
@@ -30,9 +32,8 @@ const LoginScreen = () => {
     const { email, password } = form;
 
     console.log({ email, password });
-    if (email.length === 0 || password.length === 0) {
-      return;
-    }
+    if (email.length === 0 || password.length === 0) return;
+
     setIsPosting(true);
     const wasSuccessful = await login(email, password);
     setIsPosting(false);
@@ -48,19 +49,27 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <ScrollView
-        style={{
+        style={{ backgroundColor }}
+        contentContainerStyle={{
           paddingHorizontal: 40,
-          backgroundColor: backgroundColor,
+          paddingTop: screenHeight * 0.12,
+          paddingBottom: 60,
         }}
+        keyboardShouldPersistTaps="handled"
       >
-        <View style={{ paddingTop: height * 0.35 }}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+
+        <View style={{ marginTop: 40 }}>
           <ThemedText type="title">Ingresar</ThemedText>
           <ThemedText style={{ color: "grey" }}>
             Por favor ingrese para continuar
           </ThemedText>
         </View>
 
-        {/* Email y Password */}
         <View style={{ marginTop: 20 }}>
           <ThemedTextInput
             placeholder="Correo electrónico"
@@ -82,14 +91,8 @@ const LoginScreen = () => {
           />
         </View>
 
-        {/* Scer */}
-        <View
-          style={{
-            marginTop: 10,
-          }}
-        />
+        <View style={{ marginTop: 20 }} />
 
-        {/* Botón de Ingresar */}
         <ThemedButton
           icon="arrow-forward-outline"
           onPress={onLogin}
@@ -97,14 +100,8 @@ const LoginScreen = () => {
         >
           Ingresar
         </ThemedButton>
-        {/* Botón de Registro */}
 
-        {/* Spacer */}
-        <View
-          style={{
-            marginTop: 50,
-          }}
-        />
+        <View style={{ marginTop: 50 }} />
 
         <View
           style={{
@@ -124,3 +121,12 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 250,
+    height: 150,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+});

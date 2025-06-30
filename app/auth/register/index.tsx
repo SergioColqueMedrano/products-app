@@ -5,25 +5,37 @@ import { ThemedTextInput } from "@/presentation/theme/components/ThemedTextInput
 import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
 import React from "react";
 import {
+  Dimensions,
+  Image,
   KeyboardAvoidingView,
   ScrollView,
-  useWindowDimensions,
+  StyleSheet,
   View,
 } from "react-native";
 
+const screenHeight = Dimensions.get("window").height;
+
 const RegisterScreen = () => {
-  const { height } = useWindowDimensions();
   const backgroundColor = useThemeColor({}, "background");
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
       <ScrollView
-        style={{
+        style={{ backgroundColor }}
+        contentContainerStyle={{
           paddingHorizontal: 40,
-          backgroundColor: backgroundColor,
+          paddingTop: screenHeight * 0.12,
+          paddingBottom: 60,
         }}
+        keyboardShouldPersistTaps="handled"
       >
-        <View style={{ paddingTop: height * 0.35 }}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+
+        <View style={{ marginTop: 40 }}>
           <ThemedText type="title">Crear cuenta</ThemedText>
           <ThemedText style={{ color: "grey" }}>
             Por favor crea una cuenta para continuar
@@ -49,27 +61,14 @@ const RegisterScreen = () => {
             autoCapitalize="none"
             style={{ marginTop: 10 }}
             icon="lock-closed-outline"
-            //icon
           />
         </View>
 
-        {/* Spacer */}
-        <View
-          style={{
-            marginTop: 10,
-          }}
-        />
+        <View style={{ marginTop: 20 }} />
 
-        {/* Botón de Ingresar */}
         <ThemedButton icon="arrow-forward-outline">Crear cuenta</ThemedButton>
-        {/* Botón de Registro */}
 
-        {/* Spacer */}
-        <View
-          style={{
-            marginTop: 50,
-          }}
-        />
+        <View style={{ marginTop: 50 }} />
 
         <View
           style={{
@@ -89,3 +88,12 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 250,
+    height: 150,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+});
